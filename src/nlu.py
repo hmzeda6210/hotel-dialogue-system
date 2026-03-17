@@ -1,9 +1,6 @@
 # nlu.py
-# Natural Language Understanding module.
-# Takes raw user input and returns the intent and extracted slots.
-
+# Natural Language Understanding module,takes raw user input and returns the intent and extracted slots.
 import pickle
-
 class IntentClassifier:
     def __init__(self,
                  model_path="data/models/intent_classifier.pkl",
@@ -20,7 +17,6 @@ class IntentClassifier:
         intent = self.classifier.predict(X)[0]
         confidence = float(self.classifier.predict_proba(X).max())
         return {"intent": intent, "confidence": round(confidence, 2)}
-
 
 class SlotFiller:
     def __init__(self,
@@ -79,8 +75,7 @@ class SlotFiller:
             slots[current_slot] = " ".join(current_value)
         
         return slots
-
-
+    
 class NLU:
     def __init__(self):
         # Combine intent classifier and slot filler into one interface
@@ -96,7 +91,6 @@ class NLU:
             "confidence": intent_result["confidence"],
             "slots": slots
         }
-
 
 if __name__ == "__main__":
     nlu = NLU()
