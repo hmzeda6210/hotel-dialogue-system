@@ -21,7 +21,8 @@ def query_database(slots):
         match = True
         for slot, val in slots.items():
             if val is not None:
-                if hotel.get(slot) != val:
+                # Only check slots that exist in the hotel record
+                if slot in hotel and hotel.get(slot) != val:
                     match = False
         if match:
             results.append(hotel)
@@ -62,7 +63,6 @@ class DialoguePolicy:
 
 
 if __name__ == "__main__":
-    #test it
     class FakeState:
         slots = {
             "area": "north",
@@ -74,7 +74,7 @@ if __name__ == "__main__":
             "book_people": "2",
             "book_nights": "3",
             "book_day": "monday"
-        }   
+        }
 
     policy = DialoguePolicy()
     action = policy.decide(FakeState())
