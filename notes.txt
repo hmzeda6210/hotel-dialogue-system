@@ -1,3 +1,4 @@
 #concepts touched
 ''' oversampling, BERT(Bidirectional Encoder Representations from Transformers),gradient descent, 
-sigmoid, softmax, cls vector,Dialogue state tracking (DST), nlu
+sigmoid, softmax, cls vector,Dialogue state tracking (DST), nlu, GUS(genial understanding system) policy,
+ contraints relaxation

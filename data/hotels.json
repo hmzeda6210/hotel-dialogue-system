@@ -1,0 +1,10 @@
+[
+  {"name": "The Grand Hotel", "area": "centre", "pricerange": "expensive", "stars": "4", "internet": "yes", "parking": "no", "type": "hotel"},
+  {"name": "Budget Inn", "area": "north", "pricerange": "cheap", "stars": "2", "internet": "yes", "parking": "yes", "type": "hotel"},
+  {"name": "North Star Guesthouse", "area": "north", "pricerange": "moderate", "stars": "3", "internet": "yes", "parking": "yes", "type": "guesthouse"},
+  {"name": "City Centre Lodge", "area": "centre", "pricerange": "moderate", "stars": "3", "internet": "yes", "parking": "no", "type": "hotel"},
+  {"name": "South Side Hotel", "area": "south", "pricerange": "cheap", "stars": "2", "internet": "no", "parking": "yes", "type": "hotel"},
+  {"name": "East End Guesthouse", "area": "east", "pricerange": "cheap", "stars": "2", "internet": "yes", "parking": "no", "type": "guesthouse"},
+  {"name": "The Luxury Palace", "area": "centre", "pricerange": "expensive", "stars": "5", "internet": "yes", "parking": "yes", "type": "hotel"},
+  {"name": "West Walk Inn", "area": "west", "pricerange": "moderate", "stars": "3", "internet": "no", "parking": "yes", "type": "guesthouse"}
+]
