@@ -1,6 +1,6 @@
 
 # Dialogue State Tracker — keeps track of all slot values across the conversation.
-from domain import SLOTS
+from src.domain import SLOTS
 
 class DialogueState:
     def __init__(self):

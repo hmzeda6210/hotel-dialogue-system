@@ -3,11 +3,11 @@
 # GUS-style rule-based policy.
 
 import json
-from domain import SLOTS, SLOT_QUESTIONS
+from src.domain import SLOTS, SLOT_QUESTIONS
 
 # Slots to ask about first (search slots), then booking slots
 SLOT_PRIORITY = [
-    "area", "pricerange", "type", "stars", "internet", "parking",
+    "area", "pricerange",
     "book_people", "book_nights", "book_day"
 ]
 
@@ -28,16 +28,15 @@ def query_database(slots):
             results.append(hotel)
     return results
 
-
 class DialoguePolicy:
     def __init__(self):
         self.results = []
+        self.informed = False  # tracks if we already showed results
 
     def decide(self, state):
-        # Get the current slot values
         slots = state.slots
 
-        # Step 1 — find the next unfilled slot in priority order and ask for it
+        # Step 1 — ask for missing slots
         for slot in SLOT_PRIORITY:
             if slots.get(slot) is None:
                 return {
@@ -46,20 +45,25 @@ class DialoguePolicy:
                     "question": SLOT_QUESTIONS[slot]
                 }
 
-        # Step 2 — all slots filled, query the database
+        # Step 2 — query database
         self.results = query_database(slots)
 
-        # Step 3 — return results or no match
-        if self.results:
-            return {
-                "action": "inform",
-                "results": self.results
-            }
-        else:
-            return {
-                "action": "no_match",
-                "results": []
-            }
+        if not self.results:
+            return {"action": "no_match", "results": []}
+
+        # Step 3 — if not yet informed, show results
+        if not self.informed:
+            self.informed = True
+            return {"action": "inform", "results": self.results}
+
+        # Step 4 — already informed, confirm booking
+        return {
+            "action": "book_confirm",
+            "hotel": self.results[0],
+            "nights": slots.get("book_nights"),
+            "day": slots.get("book_day"),
+            "people": slots.get("book_people")
+        }
 
 
 if __name__ == "__main__":
