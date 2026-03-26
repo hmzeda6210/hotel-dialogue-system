@@ -1,9 +1,9 @@
-# domain.py
-# Central config file — defines all slots the system needs to fill for a hotel booking.
+#domain.py
+#central config file — defines all slots the system needs to fill for a hotel booking.
 
 DOMAIN = "hotel"
 
-# All slots the system needs to collect
+#all slots the system needs to collect
 SLOTS = {
     "area":         {"type": "categorical", "values": ["north", "south", "east", "west", "centre"]},
     "pricerange":   {"type": "categorical", "values": ["cheap", "moderate", "expensive"]},
@@ -17,7 +17,7 @@ SLOTS = {
                                                         "thursday", "friday", "saturday", "sunday"]},
 }
 
-# Questions the system asks to fill each slot
+#questions the system asks to fill each slot
 SLOT_QUESTIONS = {
     "area":         "What area of the city would you like to stay in?",
     "pricerange":   "What is your budget? (cheap, moderate, or expensive)",

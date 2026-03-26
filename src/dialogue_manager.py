@@ -13,11 +13,11 @@ class DialogueManager:
         self.finished = False
 
     def process(self, user_input):
-        # Step 1 — NLU
+        #1.NLU
         nlu_result = self.nlu.parse(user_input)
         print(f"  [NLU] {nlu_result}")
 
-        # Step 2 — DST: if we just asked for a specific slot, assign directly
+        #2.DST
         if self.last_asked_slot:
             slot_value = user_input.strip().lower()
             self.state.update({self.last_asked_slot: slot_value})
@@ -27,11 +27,11 @@ class DialogueManager:
 
         print(f"  [DST] {self.state.slots}")
 
-        # Step 3 — Policy
+        #3.Policy
         action = self.policy.decide(self.state)
         print(f"  [Policy] {action['action']}")
 
-        # Remember which slot we just asked about
+        #remember which slot we just asked about
         if action["action"] == "ask":
             self.last_asked_slot = action["slot"]
             
@@ -39,7 +39,7 @@ class DialogueManager:
             self.reset()
             self.finished = True
 
-        # Step 4 — NLG
+        #4.NLG
         response = self.nlg.generate(action)
         return response
 

@@ -1,18 +1,18 @@
-# policy.py
-# Dialogue Policy — decides what action to take next based on the current state.
+#policy.py
+#dialogue policy, decides what action to take next based on the current state.
 # GUS-style rule-based policy.
 
 import json
 from src.domain import SLOTS, SLOT_QUESTIONS
 
-# Slots to ask about first (search slots), then booking slots
+#slots to ask about first (search slots), then booking slots
 SLOT_PRIORITY = [
     "area", "pricerange",
     "book_people", "book_nights", "book_day"
 ]
 
 def query_database(slots):
-    # Load hotel database and return hotels matching all filled slots
+    #load hotel database and return hotels matching all filled slots
     with open("data/hotels.json") as f:
         hotels = json.load(f)
 
@@ -21,7 +21,7 @@ def query_database(slots):
         match = True
         for slot, val in slots.items():
             if val is not None:
-                # Only check slots that exist in the hotel record
+                #only check slots that exist in the hotel record
                 if slot in hotel and hotel.get(slot) != val:
                     match = False
         if match:
@@ -31,12 +31,12 @@ def query_database(slots):
 class DialoguePolicy:
     def __init__(self):
         self.results = []
-        self.informed = False  # tracks if we already showed results
+        self.informed = False  #tracks if we already showed results
 
     def decide(self, state):
         slots = state.slots
 
-        # Step 1 — ask for missing slots
+        #1.ask for missing slots
         for slot in SLOT_PRIORITY:
             if slots.get(slot) is None:
                 return {
@@ -45,18 +45,18 @@ class DialoguePolicy:
                     "question": SLOT_QUESTIONS[slot]
                 }
 
-        # Step 2 — query database
+        #2.query database
         self.results = query_database(slots)
 
         if not self.results:
             return {"action": "no_match", "results": []}
 
-        # Step 3 — if not yet informed, show results
+        #3.if not yet informed, show results
         if not self.informed:
             self.informed = True
             return {"action": "inform", "results": self.results}
 
-        # Step 4 — already informed, confirm booking
+        #4.already informed, confirm booking
         return {
             "action": "book_confirm",
             "hotel": self.results[0],

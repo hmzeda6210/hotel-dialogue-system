@@ -1,16 +1,16 @@
-# nlg.py
-# Natural Language Generation — converts policy actions into human-readable responses.
-# Uses template-based generation.
+#nlg.py
+#natural language generation, converts policy actions into human-readable responses.
+#uses template-based generation.
 
 class NLG:
     def generate(self, action):
         action_type = action["action"]
 
-        # Ask user to fill a slot
+        #ask user to fill a slot
         if action_type == "ask":
             return action["question"]
 
-        # Inform user of matching hotels
+        #inform user of matching hotels
         elif action_type == "inform":
             hotels = action["results"]
             if len(hotels) == 1:
@@ -22,18 +22,18 @@ class NLG:
                 names = ", ".join([h["name"] for h in hotels])
                 return f"I found {len(hotels)} hotels matching your request: {names}."
 
-        # No hotels matched
+        #no hotels matched
         elif action_type == "no_match":
             return "I'm sorry, I couldn't find any hotels matching your criteria."
             
-        # Booking confirmed
+        #booking confirmed
         elif action_type == "book_confirm":
             h = action["hotel"]
             return (f"Great! I've booked {h['name']} for you. "
                     f"Staying {action['nights']} nights from {action['day']} "
                     f"for {action['people']} people. "
                     f"Thank you for using our service. Goodbye!")
-        # Fallback
+        #fallback
         else:
             return "I'm sorry, I didn't understand that. Could you rephrase?"
 
@@ -41,7 +41,7 @@ class NLG:
 if __name__ == "__main__":
     nlg = NLG()
 
-    # Test all action types
+    #test all action types
     print(nlg.generate({"action": "ask", "slot": "area", 
                          "question": "What area would you like to stay in?"}))
     

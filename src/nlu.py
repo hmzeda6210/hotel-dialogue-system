@@ -1,18 +1,18 @@
-# nlu.py
-# Natural Language Understanding module,takes raw user input and returns the intent and extracted slots.
+#nlu.py
+#natural language understanding module, takes raw user input and returns the intent and extracted slots.
 import pickle
 class IntentClassifier:
     def __init__(self,
                  model_path="data/models/intent_classifier.pkl",
                  vectorizer_path="data/models/tfidf_vectorizer.pkl"):
-        # Load saved intent classifier and vectoriser
+        #load saved intent classifier and vectoriser
         with open(model_path, "rb") as f:
             self.classifier = pickle.load(f)
         with open(vectorizer_path, "rb") as f:
             self.vectorizer = pickle.load(f)
 
     def predict(self, text):
-        # Convert text to TF-IDF vector and predict intent
+        #convert text to TF-IDF vector and predict intent
         X = self.vectorizer.transform([text])
         intent = self.classifier.predict(X)[0]
         confidence = float(self.classifier.predict_proba(X).max())
@@ -22,14 +22,14 @@ class SlotFiller:
     def __init__(self,
                  model_path="data/models/slot_classifier.pkl",
                  vectorizer_path="data/models/slot_vectorizer.pkl"):
-        # Load saved slot classifier and vectoriser
+        #load saved slot classifier and vectoriser
         with open(model_path, "rb") as f:
             self.classifier = pickle.load(f)
         with open(vectorizer_path, "rb") as f:
             self.vectorizer = pickle.load(f)
 
     def extract_token_features(self, tokens, i):
-        # Build feature string for token i using context window
+        #build feature string for token i using context window
         word = tokens[i].lower()
         features = [
             f"word={word}",
@@ -42,22 +42,22 @@ class SlotFiller:
         return " ".join(features)
 
     def predict(self, text):
-        # Tokenise and extract features for each token
+        #tokenise and extract features for each token
         tokens = text.lower().split()
         features = [self.extract_token_features(tokens, i) for i in range(len(tokens))]
         
-        # Vectorise and predict labels
+        #vectorise and predict labels
         X = self.vectorizer.transform(features)
         labels = self.classifier.predict(X)
         
-        # Extract slot values from BIO labels
+        #extract slot values from BIO labels
         slots = {}
         current_slot = None
         current_value = []
         
         for token, label in zip(tokens, labels):
             if label.startswith("B-"):
-                # Save previous slot if exists
+                #save previous slot if exists
                 if current_slot:
                     slots[current_slot] = " ".join(current_value)
                 current_slot = label[2:]
@@ -70,7 +70,7 @@ class SlotFiller:
                 current_slot = None
                 current_value = []
         
-        # Save last slot if exists
+        #save last slot if exists
         if current_slot:
             slots[current_slot] = " ".join(current_value)
         
@@ -78,12 +78,12 @@ class SlotFiller:
     
 class NLU:
     def __init__(self):
-        # Combine intent classifier and slot filler into one interface
+        #combine intent classifier and slot filler into one interface
         self.intent_classifier = IntentClassifier()
         self.slot_filler = SlotFiller()
 
     def parse(self, text):
-        # Run both models and return combined result
+        #run both models and return combined result
         intent_result = self.intent_classifier.predict(text)
         slots = self.slot_filler.predict(text)
         return {

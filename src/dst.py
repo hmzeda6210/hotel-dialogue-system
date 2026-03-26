@@ -1,5 +1,5 @@
 
-# Dialogue State Tracker — keeps track of all slot values across the conversation.
+#dialogue state tracker, keeps track of all slot values across the conversation.
 from src.domain import SLOTS
 
 class DialogueState:
