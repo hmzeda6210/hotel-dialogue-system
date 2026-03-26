@@ -236,5 +236,3 @@ Adding a relaxation step before returning a failure response — dropping the le
 - Louvan & Magnini (2020) — Recent Neural Methods on Slot Filling and Intent Classification
 
 ---
-
-Built from scratch. Every component understood, not just copied.
