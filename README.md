@@ -1,5 +1,5 @@
 # Task-Oriented Dialogue System
-### A fully modular, end-to-end restaurant and hotel booking dialogue agent — built from scratch.
+### A fully modular, end-to-end hotel booking dialogue agent — built from scratch.
 
 This project implements a complete task-oriented dialogue system following the dialogue-state architecture. Every component of the pipeline was built independently, from raw text understanding to response generation, without relying on any pre-built dialogue framework.
 
@@ -15,13 +15,13 @@ This project implements a complete task-oriented dialogue system following the d
 | Slot Filling Macro F1 | 0.63 |
 | Task Completion Rate | 80% |
 
-> Evaluated on the [MultiWOZ v2.2](https://huggingface.co/datasets/tuetschek/multi_woz_v22) dataset — one of the largest and most challenging multi-domain task-oriented dialogue benchmarks, covering hotel, restaurant, taxi, train, and attraction domains.
+> Evaluated on the [MultiWOZ v2.2](https://huggingface.co/datasets/tuetschek/multi_woz_v22) dataset — one of the largest and most challenging multi-domain task-oriented dialogue benchmarks, covering hotel, taxi, train, and attraction domains.
 
 ---
 
 ## What This Is
 
-A task-oriented dialogue system is built to help users complete a specific goal — like booking a restaurant or finding a hotel — through natural conversation. Unlike a general chatbot, every component of the system has a precise job: understand what the user wants, remember it across turns, decide what to ask next, and respond naturally.
+A task-oriented dialogue system is built to help users complete a specific goal — like booking a finding a hotel — through natural conversation. Unlike a general chatbot, every component of the system has a precise job: understand what the user wants, remember it across turns, decide what to ask next, and respond naturally.
 
 This system covers the full pipeline:
 
@@ -71,16 +71,15 @@ Each component is a separate Python module. They communicate through clean, stru
 
 **Happy path — all slots filled in one turn:**
 ```
-You:    I'm looking for a cheap Italian restaurant in the north.
-System: I found 2 restaurants matching your criteria:
-        - Frankie & Benny's (Italian, cheap, north)
-        - Pizza Express (Italian, cheap, north)
-        Would you like more details about either of these?
+You:    I need a cheap hotel in the north with 3 stars.
+System: I found 1 hotel matching your criteria:
+        - The Arbury Lodge (north, cheap, 3 stars)
+        Would you like more details about this hotel?
 
-You:    Yes, tell me about the first one.
-System: Frankie & Benny's is located in the north of the city.
-        It serves Italian food at a cheap price range.
-        Is there anything else you'd like to know?
+You:    Yes please.
+System: The Arbury Lodge is located in the north of the city.
+        It is available at a cheap price range and has 3 stars.
+        Is there anything else you would like to know?
 ```
 
 **Multi-turn slot filling:**
@@ -193,9 +192,9 @@ When a user corrects a previously filled slot ("actually make it French, not Ita
 
 This project has known boundaries worth being transparent about:
 
-- Domain coverage is primarily tuned for hotel and restaurant booking within MultiWOZ
+- Domain coverage is primarily tuned for hotel booking within MultiWOZ
 - System initiative only — the system leads the conversation and mixed initiative is not supported
-- Negation is not handled — "I don't want Italian food" may incorrectly fill food = italian
+- Negation is not handled — "I don't want Italian food" may incorrectly fill area = centre when the user said they do not want the centre
 - Template NLG produces repetitive responses over long conversations
 - Text input only — no speech or ASR integration
 
@@ -238,3 +237,4 @@ Adding a relaxation step before returning a failure response — dropping the le
 
 ---
 
+Built from scratch. Every component understood, not just copied.
